@@ -646,7 +646,6 @@ class HandMouseHandler(MouseHandler):
 class ZoomMouseHandler(MouseHandler):
     def __init__(self, image_canvas_item: ImageCanvasItem, event_loop: asyncio.AbstractEventLoop, is_zooming_in: bool) -> None:
         super().__init__(image_canvas_item, event_loop)
-        self.cursor_shape = "mag_glass"
         self._is_zooming_in = is_zooming_in
 
     async def _reactor_loop(self, r: Stream.ValueChangeStreamReactorInterface[MousePositionAndModifiers],
@@ -685,7 +684,7 @@ class ZoomMouseHandler(MouseHandler):
                         mouse_pos, modifiers = value_change.value
                         end_drag_pos = mouse_pos
                         if (self._is_zooming_in and
-                            ((abs(start_drag_pos[0] - end_drag_pos[0]) > 3) or (abs(start_drag_pos[1] - end_drag_pos[1]) > 3))):
+                            ((abs(start_drag_pos[0] - end_drag_pos[0]) > 9) or (abs(start_drag_pos[1] - end_drag_pos[1]) > 9))):
                             image_canvas_item._apply_selection_zoom(start_drag_pos, end_drag_pos)
                         else:
                             image_canvas_item._apply_fixed_zoom(self._is_zooming_in, start_drag_pos)
