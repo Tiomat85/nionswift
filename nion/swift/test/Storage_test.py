@@ -966,7 +966,6 @@ class TestStorageClass(unittest.TestCase):
                 display_item = document_model.get_display_item_for_data_item(data_item)
                 display_panel.set_display_panel_display_item(display_item)
                 display_panel.display_canvas_item.layout_immediate(Geometry.IntSize(w=200, h=50))
-                display_panel.display_canvas_item.prepare_display()  # force layout
 
     def test_writing_empty_data_item_returns_expected_values(self):
         with create_temp_profile_context() as profile_context:
@@ -2466,7 +2465,7 @@ class TestStorageClass(unittest.TestCase):
                 self.assertEqual(len(document_model.data_items), 2)
                 computation = document_model.get_data_item_computation(document_model.data_items[1])
                 self.assertEqual(computation.processing_id, "line-profile")
-                self.assertEqual(computation.expression, Symbolic.xdata_expression(DocumentModel.DocumentModel._builtin_processing_descriptions["line-profile"]["expression"].replace("{src}", "src")))
+                self.assertEqual(computation.expression, Symbolic.xdata_expression(DocumentModel.DocumentModel._builtin_processors["line-profile"].expression.replace("{src}", "src")))
                 self.assertEqual(len(computation.variables), 2)
                 self.assertEqual(computation.get_input("src").data_item, document_model.data_items[0])
                 self.assertEqual(computation.get_input("line_region"), document_model.display_items[0].graphics[0])
